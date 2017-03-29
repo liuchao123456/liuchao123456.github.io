@@ -288,7 +288,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>如今，NLP是最为火热的一个领域，已经渐渐渗透进越来越多的公司业务中，今天，我就讲解一下它的用法以及原理。<br>首先，情感分析方法有两种，一种是基于情感词典的方法，另一种是基于机器学习的方法。<br>在这里，我只介绍基于机器学习的情感分析，毕竟，我对这方面是比较熟悉的。首先要想做分析，就必须</p>
+        <p>如今，NLP是最为火热的一个领域，已经渐渐渗透进越来越多的公司业务中，今天，我就讲解一下它的用法以及原理。<br>首先，情感分析方法有两种，一种是基于情感词典的方法，另一种是基于机器学习的方法。<br>在这里，我只介绍基于机器学习的情感分析，毕竟，我对这方面是比较熟悉的。首先要想做分析，就必须准备训练的数据，这里我选择了三组数据（1.停用词，2.正负向语料词，3.验证集）<br>第一步：数据的预处理，这一步还是要分词，代码如下：<br>import numpy as np<br>import sys<br>import re<br>import codecs<br>import os<br>import jieba<br>from gensim.models import word2vec<br>from sklearn.cross_validation import train_test_split<br>from sklearn.externals import joblib<br>from sklearn.preprocessing import scale<br>from sklearn.svm import SVC<br>from sklearn.decomposition import PCA<br>from scipy import stats<br>from keras.models import Sequential<br>from keras.layers import Dense, Dropout, Activation<br>from keras.optimizers import SGD<br>from sklearn.metrics import f1_score<br>from bayes_opt import BayesianOptimization as BO<br>from sklearn.metrics import roc_curve, auc<br>import matplotlib.pyplot as plt</p>
+<p>def parseSent(sentence):<br>    seg_list = jieba.cut(sentence)<br>    output = ‘’.join(list(seg_list)) # use space to join them<br>    return output</p>
+<p>第二步：也要除去停用词<br>第三步：训练词向量，而在这里模型的输入应该是数据元祖，那么就需要将每条数据的词语组合转化成一个数值向量。常见的转化算法有如下几种：<br>1，Bag of Words<br>  是用构造词典的方法，且向量中的每个向量表示词典中对应单词在文档中出现的次数。其缺陷是“词汇鸿沟”现象：忽略了单词间的语法和顺序，无法了解单词间的关联程度，解决方法：1.采用SCPCD抽出整个短语2.采用高阶（2阶以上）统计语言模型，例如bigram,trigram等。<br>2，TF-IDF<br>  如果某个词在一篇文章中出现的频率高，且在其他文章中出现的概率低，则认为改词具有很好的类别区分能力，赋予更高的权重。TF:给定词语在该文档中出现的次数。IDF:词语普遍重要性的度量。其缺陷是单纯以词频作为单词重要性的度量，对于位置没有敏感性。解决方案：人为添加权重，例如：第一段和最后一段赋予更高的权重；每段第一句赋予更高的权重。<br>3，Word2Vec<br>  词向量空间上的相似度可以用来表示文本语义上的相似度，常被用于词语聚类，找同义词，词性分析等。<br>在这里我选择Word2Vec向量，首先，我先介绍一下它的具体用法。它能够根据输入的词的集合计算出词与词之间的距离。它将term转换成向量的形式，可以把对文本内容的处理简化成向量空间的向量运算，计算出向量空间的相似度，来表示文本语义上的相似度。它计算的是余弦值，距离范围为0-1之间，值越大表示两个词的关联度越高。且，词向量表示法让相关或者相似的词，在距离上更接近。</p>
 
       
     </div>
