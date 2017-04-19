@@ -21,7 +21,7 @@
 <meta property="og:url" content="http://deityfiend.cn/2017/04/19/支持向量机-SVM/index.html">
 <meta property="og:site_name" content="code art">
 <meta property="og:description" content="有些人认为，SVM是最好的现成的分类器，在数据上应用基本形式的SVM分类器就可以得到低错误率的结果。SVM能够对训练集之外的数据点做出很好的分类决策。其实SVM有很多的实现，在这里我只是讲解一下一种实现，及是“序列最小优化（SMO）”算法，此外，我们还可以用核函数（kernel）的方式将SVM扩扩展到更多数据集上。支持向量机其实就是那些离分隔超平面的点，而我要做的就是试着最大化支持向量机到分">
-<meta property="og:updated_time" content="2017-04-19T10:44:53.987Z">
+<meta property="og:updated_time" content="2017-04-19T11:38:05.823Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="支持向量机(SVM)">
 <meta name="twitter:description" content="有些人认为，SVM是最好的现成的分类器，在数据上应用基本形式的SVM分类器就可以得到低错误率的结果。SVM能够对训练集之外的数据点做出很好的分类决策。其实SVM有很多的实现，在这里我只是讲解一下一种实现，及是“序列最小优化（SMO）”算法，此外，我们还可以用核函数（kernel）的方式将SVM扩扩展到更多数据集上。支持向量机其实就是那些离分隔超平面的点，而我要做的就是试着最大化支持向量机到分">
@@ -293,7 +293,9 @@
       
           
         <p>   有些人认为，SVM是最好的现成的分类器，在数据上应用基本形式的SVM分类器就可以得到低错误率的结果。SVM能够对训练集之外的数据点做出很好的分类决策。其实SVM有很多的实现，在这里我只是讲解一下一种实现，及是“序列最小优化（SMO）”算法，<br>此外，我们还可以用核函数（kernel）的方式将SVM扩扩展到更多数据集上。支持向量机其实就是那些离分隔超平面的点，而我要做的就是试着最大化支持向量机到分割面的距离，需要找到此问题的优化求解方法 。</p>
-<h3 id="1-寻找"><a href="#1-寻找" class="headerlink" title="1.寻找"></a>1.寻找</h3>
+<h3 id="1-寻找最大间隔"><a href="#1-寻找最大间隔" class="headerlink" title="1.寻找最大间隔"></a>1.寻找最大间隔</h3><p>   分隔超平面的形式可以写成label*(wTx+b)。要计算点A到分隔超平面的距离，就必须给出点到分割面的法线或垂线的长度，该值是|wTA+b|/|w|。</p>
+<h3 id="2-分类器求解的优化问题"><a href="#2-分类器求解的优化问题" class="headerlink" title="2.分类器求解的优化问题"></a>2.分类器求解的优化问题</h3><p>   输入数据给分类器会输出一个类别标签，这相当于一个类似于sigmoid的函数的应用。在下面的例子中我会使用类似“海维赛德阶跃函数（即单位阶跃函数）”的函数对wTx+b作用得到发（wTx+b）,其中u&lt;0时输出-1，反之则输出+1。这里类别标签使用-1和+1<br>是为了使Label <em> （wTx+b）的值一直是正数。之后的目标就是找出分类器定义的w和b。为此我们必须找到具有最小间隔的数据点，二这些数据点就是前面提到的支持向量。一旦找到具有最小间隔的数据点，。这就可以写成：arg max{min(label</em>(wTx+b))<em>1/|w|}<br>直接求解上面的公式相当的困难，所以我们将它转换成另外一种更容易的求解形式。我们要做的就是固定其中一个因子而最大化其它因子。如果令所有的支持向量（label</em>(wTx+b)）都为一，那么就可以通过求1我们就需要对该间隔最大化/|w|的最大值来得到最终解。但是并非所有的数据点的label<em>(wTx+b)都等于1，只有那些离<br>超平面最近的点得到的值才为1.而离超平面越远的数据点，其label</em>(wTx+b)的值也就越大。</p>
+
       
     </div>
     
@@ -304,7 +306,7 @@
         <p><span>本文标题:</span><a href="/2017/04/19/支持向量机-SVM/">支持向量机(SVM)</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Aaron</a></p>
         <p><span>发布时间:</span>2017-04-19, 18:19:56</p>
-        <p><span>最后更新:</span>2017-04-19, 18:44:53</p>
+        <p><span>最后更新:</span>2017-04-19, 19:38:05</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/04/19/支持向量机-SVM/" title="支持向量机(SVM)">http://deityfiend.cn/2017/04/19/支持向量机-SVM/</a>
             <span class="copy-path" data-clipboard-text="原文: http://deityfiend.cn/2017/04/19/支持向量机-SVM/　　作者: Aaron" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -334,7 +336,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-寻找"><span class="toc-number">1.</span> <span class="toc-text">1.寻找</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-寻找最大间隔"><span class="toc-number">1.</span> <span class="toc-text">1.寻找最大间隔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-分类器求解的优化问题"><span class="toc-number">2.</span> <span class="toc-text">2.分类器求解的优化问题</span></a></li></ol>
         
     </div>
     <style>
