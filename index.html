@@ -314,7 +314,63 @@ def clipAlpha(aj,H,L):
         aj = L
     return aj
 </code></pre><p>   ###该SMO函数的伪代码大致如下<br>   创建一个alpha向量并将其初始化为零向量<br>   当迭代次数小于最大迭代次数时（外循环）<br>      对数据集中的每一个数据向量（内循环）<br>      如果该数据向量可以被优化：<br>         随机选择另外一个数据向量<br>         同时优化这两个向量<br>         如果两个向量都不能被优化，退出内循环<br>       如果所有向量都没有被优化，增加迭代数目，继续下一次循环</p>
+<h3 id="Python的实现代码"><a href="#Python的实现代码" class="headerlink" title="Python的实现代码"></a>Python的实现代码</h3><pre><code>#如果alpha可以更改进入优化过程
+def smoSimple(dataMatIn,classLabels,c,toler,maxIter):
+    dataMatrix = np.mat(dataMatIn)
+    labelMat = np.mat(classLabels).transpose()
+    b = 0
+    m,n = np.shape(dataMatrix)
+    alphas = np.mat(np.zeros((m,1)))
+    iter = 0
+    while(iter &lt; maxIter):
+        alphaPairsChanged = 0
+        for i in range(m):
+            #随机选择第二个alpha
+            fXj = float(np.multiply(alphas,labelMat).T * (dataMatrix*dataMatrix[i,:].T)) + b
+            Ei = fXj - float(labelMat[i])
+            if ((labelMat[i]*Ei &lt; -toler) and (alphas[i] &lt; c)) or ((labelMat[i]*Ei &gt; toler) and (alphas[i] &gt; 0)):
+                j = selectJrand(i,m)
+                fXj = float(np.multiply(alphas,labelMat).T*(dataMatrix*dataMatrix[j,:].T)) + b
+            Ej = fXj - float(labelMat[j])
+            alphaIold = alphas[i].copy()
+            alphaJold = alphas[j].copy()
+            if(labelMat[i] != labelMat[j]):
+                #保证alpha在0与C之间
+                L = max(0,alphas[j] - alphas[i])
+                H = min(c,c + alphas[j] - alphas[i])
+            else:
+                L = max(0,alphas[j] + alphas[i] - c)
+                H = min(c,alphas[j] + alphas[i])
+            if L==H:
+                print &quot;L==H&quot;;continue
+            eta =2.0*dataMatrix[i,:]*dataMatrix[j,:].T - dataMatrix[i,:]*dataMatrix[i,:].T-dataMatrix[j,:]*dataMatrix[j,:].T
+            #对i进行修改，修改量与j相同，但方向相反
+            if eta&gt;=0:
+                print &quot;eta&gt;=0&quot;;continue
+            alphas[j] -=labelMat[j]*(Ei-Ej)/eta
+            alphas[j] = clipAlpha(alphas[j],H,L)
+            if (abs(alphas[j]-alphaJold)&lt;0.00001):
+                print &quot;j not moving enough&quot; ;continue
+            alphas[i]+=labelMat[j]*labelMat[i]*(alphaJold - alphas[j])
+            b1 = b - Ei - labelMat[i]*(alphas[i] - alphaIold)*dataMatrix[i,:]*dataMatrix[i,:].T - labelMat[j]*(alphas[j] - alphaJold)*dataMatrix[i,:]*dataMatrix[j,:].T
+           #设置常数项
+            b2 = b - Ej - labelMat[i]*(alphas[i]-alphaIold)*dataMatrix[i,:]*dataMatrix[j,:].T - dataMatrix[j,:]*dataMatrix[j,:].T
+            if (0&lt;alphas[i])and(c&gt;alphas[i]):
+                b = b1
+            elif (0&lt;alphas[j])and(c&gt;alphas[j]):
+                b = b2
+            else:
+                b = (b1 + b2)/2.0
 
+            alphaPairsChanged += 1
+            print &quot;iter: %d i :%d,pairs changed %d&quot; %(iter,i,alphaPairsChanged)
+        if (alphaPairsChanged == 0):
+            iter+=1
+        else:
+            iter = 0
+        print &quot;iteration number: %d&quot; % iter
+    return b,alphas
+</code></pre>
       
     </div>
     
