@@ -288,7 +288,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="步骤一从图片中提取九宫格的数字"><a href="#步骤一从图片中提取九宫格的数字" class="headerlink" title="步骤一从图片中提取九宫格的数字"></a>步骤一从图片中提取九宫格的数字</h3><p>  这是本次步骤中用到的图片的链接：<a href="http://oop9sj18q.bkt.clouddn.com/%E4%B9%9D%E5%AE%AB%E6%A0%BC%E6%95%B0%E7%8B%AC.jpg" target="_blank" rel="external">http://oop9sj18q.bkt.clouddn.com/%E4%B9%9D%E5%AE%AB%E6%A0%BC%E6%95%B0%E7%8B%AC.jpg</a><br>  在opencv中有轮廓提取函数findContours(),利用轮廓的层级结构会更加的简单如下是findContours()的简单说明:<br>cv2.findContours(image, mode, method[, contours[, hierarchy[, offset] ] ]) → contours, hierarchy</p>
+        <h3 id="步骤一从图片中提取九宫格的数字"><a href="#步骤一从图片中提取九宫格的数字" class="headerlink" title="步骤一从图片中提取九宫格的数字"></a>步骤一从图片中提取九宫格的数字</h3><p>  这是本次步骤中用到的图片的链接：<a href="http://oop9sj18q.bkt.clouddn.com/%E4%B9%9D%E5%AE%AB%E6%A0%BC%E6%95%B0%E7%8B%AC.jpg" target="_blank" rel="external">http://oop9sj18q.bkt.clouddn.com/%E4%B9%9D%E5%AE%AB%E6%A0%BC%E6%95%B0%E7%8B%AC.jpg</a><br>  在opencv中有轮廓提取函数findContours(),利用轮廓的层级结构会更加的简单如下是findContours()的简单说明:<br>cv2.findContours(image, mode, method[, contours[, hierarchy[, offset] ] ]) → contours, hierarchy。在Python中findContous()接受如下参数并返回contours和hierarchy。[1，image源图像，一般8为单通道图像，<br>其实也就是二值图像。2，mode 轮廓检索模式，这里简要介绍几种（（1）.cv2.RETR_EXTERNAL 只检测外轮廓，对所有轮廓设置hierarchy[i][2]=hierarchy[i][3]=-1 （2），cv2.RETR_LIST提取所有轮廓，并放置在list中，检测到的<br>轮廓不建立等级关系）]</p>
 
       
     </div>
