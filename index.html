@@ -288,7 +288,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="步骤一从图片中提取九宫格的数字"><a href="#步骤一从图片中提取九宫格的数字" class="headerlink" title="步骤一从图片中提取九宫格的数字"></a>步骤一从图片中提取九宫格的数字</h3><p>  这是本次步骤中用到的图片的链接：<a href="http://oop9sj18q.bkt.clouddn.com/%E4%B9%9D%E5%AE%AB%E6%A0%BC%E6%95%B0%E7%8B%AC.jpg" target="_blank" rel="external">http://oop9sj18q.bkt.clouddn.com/%E4%B9%9D%E5%AE%AB%E6%A0%BC%E6%95%B0%E7%8B%AC.jpg</a><br>  在opencv中有轮廓提取函数findContours(),利用轮廓的层级结构会更加的简单如下是findContours()的简单说明:<br>cv2.findContours(image, mode, method[, contours[, hierarchy[, offset] ] ]) → contours, hierarchy。在Python中findContous()接受如下参数并返回contours和hierarchy。[1，image源图像，一般8为单通道图像，<br>其实也就是二值图像。2，mode 轮廓检索模式，这里简要介绍几种（（1）.cv2.RETR_EXTERNAL 只检测外轮廓，对所有轮廓设置hierarchy[i][2]=hierarchy[i][3]=-1 （2），cv2.RETR_LIST提取所有轮廓，并放置在list中，检测到的<br>轮廓不建立等级关系）]</p>
+        <h3 id="步骤一从图片中提取九宫格的数字"><a href="#步骤一从图片中提取九宫格的数字" class="headerlink" title="步骤一从图片中提取九宫格的数字"></a>步骤一从图片中提取九宫格的数字</h3><p>  这是本次步骤中用到的图片的链接：<a href="http://oop9sj18q.bkt.clouddn.com/%E4%B9%9D%E5%AE%AB%E6%A0%BC%E6%95%B0%E7%8B%AC.jpg" target="_blank" rel="external">http://oop9sj18q.bkt.clouddn.com/%E4%B9%9D%E5%AE%AB%E6%A0%BC%E6%95%B0%E7%8B%AC.jpg</a><br>  在opencv中有轮廓提取函数findContours(),利用轮廓的层级结构会更加的简单如下是findContours()的简单说明:<br>cv2.findContours(image, mode, method[, contours[, hierarchy[, offset] ] ]) → contours, hierarchy。在Python中findContous()接受如下参数并返回contours和hierarchy。[1，image源图像，一般8为单通道图像，<br>其实也就是二值图像。2，mode 轮廓检索模式，这里简要介绍几种（（1）.cv2.RETR_EXTERNAL 只检测外轮廓，对所有轮廓设置hierarchy[i][2]=hierarchy[i][3]=-1 （2），cv2.RETR_LIST提取所有轮廓，并放置在list中，检测到的<br>轮廓不建立等级关系 (3)，cv2提取所有轮廓，建立网状的轮廓结构）3，method轮廓的近似方法，是提取轮廓上所有像素点，还是只提取关键的一些点，比如一条直线是提取所有点还是提取两个端点。4，contours检测到的轮廓，为组成轮廓<br>的点集。5，hierarchy下面详述]</p>
+<p>###hierarchy<br>什么是层级结构呢？我们检测轮廓的时候，有时候可能会出现其中一个轮廓包含了另外一个轮廓，比如同心圆。这里我们认为外侧轮廓为父轮廓，内侧被包含的为子轮廓。同一级别的又有前一个轮廓和后一个轮廓。总的来说，hierarchy表达的<br>是不同轮廓之间的关系和联系。</p>
 
       
     </div>
